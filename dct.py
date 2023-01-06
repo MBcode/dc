@@ -1,6 +1,7 @@
 #pulled from ec.py by mbobak@illinois.edu
-#import ec #still needs refs out to ec. now for much of this part to work 
-import ec2 #start ec.py w/o this file as ec2, till goes through testing
+#import dc #still needs refs out to ec. now for much of this part to work 
+#import ec2 #start ec.py w/o this file as ec2, till goes through testing
+import dc #easier as decoder=dc to have NB do: with httpimport.github_repo('MBcode', 'dc'):
 import os
 import sys
 import json
