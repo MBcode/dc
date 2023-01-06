@@ -1,2 +1,2 @@
 # dc
-ec=earthcube follow on dc=decoder
+[ec](https://github.com/MBcode/ec)=earthcube follow on dc=decoder
