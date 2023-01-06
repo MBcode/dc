@@ -48,15 +48,37 @@ def now():
     return dt_string
 
 def head(l, n=5):
+    """>>> l=[1,2,3,4,5,6]
+    >>> head(l)
+    [1, 2, 3, 4, 5]
+    """
     return l[:n]
 
 def tail(l, n=5):
+    """>>> l=[1,2,3,4,5,6]
+    >>> tail(l)
+    [2, 3, 4, 5, 6]"""
     return l[-n:]
 
 def is_str(v):
+    """
+    >>> is_str("")
+    True
+    >>> is_str(5)
+    False
+    """
     return type(v) is str
 
 def is_list(v):
+    """
+    >>> l_,l0,l1=1,[],[1]
+    >>> is_list(l_)
+    False
+    >>> is_list(l0)
+    True
+    >>> is_list(l1)
+    True
+    """
     return type(v) is list
 
 #pagemil parameterized colab/gist can get this code via:
@@ -70,12 +92,14 @@ IN_COLAB = 'google.colab' in sys.modules
 cwd = os.getcwd()
 
 def falsep(val):
+    """predicate to see if false = not
+    >>> falsep(True)
+    False
+    >>> falsep(False)
+    True
+    """
     return val == False
 
-def not_true(val):
-  return val and (val != False)
-
-#if not_true(IN_COLAB):
 if falsep(IN_COLAB):
     print("not IN_COLAB")
     #local()
@@ -118,7 +142,13 @@ def ndtq(name=None,datasets=None,queries=None,tools=None):
 #install_recipy()
 #import recipy
 def first(l):
-    "get the first in an iterable"
+    """get the first in an iterable ;check_on l1 case
+    >>> l_,l0,l1=1,[],[1]
+    >>> first(l_)
+    1
+    >>> first(l1)
+    1
+    """
     from collections.abc import Iterable
     if isinstance(l,list):
         return l[0]
@@ -128,7 +158,11 @@ def first(l):
         return l
 
 def flatten(xss): #stackoverflow
-    "make list of lists into 1 flat list"
+    """make list of lists into 1 flat list ;check_on 1st level non-list case
+    >>> ld=[[1], [2,3], [4]]
+    >>> flatten(ld)
+    [1, 2, 3, 4]
+    """
     return [x for xs in xss for x in xs]
 
 #from qry.py
@@ -176,7 +210,10 @@ def os_system(cs):
     add2log(cs)
 
 def os_system_(cs):
-    "system call w/return value"
+    """system call w/return value
+    os_system_('ls -1|grep -v ~|grep dc.py')
+    'dc.py\ndc.py~\n'
+    """
     s=os.popen(cs).read()
     add2log(cs)
     return s
@@ -189,19 +226,28 @@ def whoami():
     return os_system_("whoami")
 
 def urn_leaf(s): #like urn_tail
-    "last part of : sep string" 
+    """last part of : sep string
+    >>> urn_leaf("protocol://one.two.three/repo:last_bit.txt")
+    'last_bit.txt'
+    """
     leaf = s if not s else s.split(':')[-1]
     return leaf
 
 #start adding more utils, can use to: fn=read_file.path_leaf(url) then: !head fn
 def path_leaf(path):
-    "everything after the last /"
+    """everything after the last /
+    >>> path_leaf("protocol://one.two.three/repo:last_bit.txt")
+    'repo:last_bit.txt'
+    """
     import ntpath
     head, tail = ntpath.split(path)
     return tail or ntpath.basename(head)
 
 def path_base_leaf(path):
-    "like path_leaf but gives base 1st"
+    """like path_leaf but gives base 1st
+    >>> path_base_leaf("protocol://one.two.three/repo:last_bit.txt")
+    ('protocol://one.two.three', 'repo:last_bit.txt')
+    """
     import ntpath
     head, tail = ntpath.split(path)
     if not tail:
@@ -217,7 +263,10 @@ base_url2repo ={"https://raw.githubusercontent.com/earthcube/GeoCODES-Metadata/m
         } #won't match if '/' at end of key
 #
 def replace_base(path,mydict=base_url2repo,sep=":"): #for context like: repo:filename
-    "use URI to context:, eg. repo:leaf.rdf"
+    """use URI to context:, eg. repo:leaf.rdf
+    >>> replace_base("https://raw.githubusercontent.com/earthcube/GeoCODES-Metadata/main/metadata/Dataset/allgood/test1")
+    'geocodes_demo_datasets:test1'
+    """
     base,leaf=path_base_leaf(path)
     new_base=mydict.get(base)
     if new_base:
@@ -226,40 +275,62 @@ def replace_base(path,mydict=base_url2repo,sep=":"): #for context like: repo:fil
         return path
 
 def file_ext(fn):
-    "the ._part of the filename"
+    """the ._part of the filename
+    >>> file_ext("filename.txt")
+    '.txt'
+    """
     st=os.path.splitext(fn)
     add2log(f'fe:st={st}')
     return st[-1]
 
 def file_base(fn):
-    "the base part of base.txt"
+    """the base part of base.txt
+    >>> file_base("filename.txt")
+    'filename'
+    """
     st=os.path.splitext(fn)
     add2log(f'fb:st={st}')
     return st[0]
 
 def file_leaf_base(path):
-    "base of the leaf file"
+    """base of the leaf file
+    >>> file_leaf_base("a/b/c/filename.txt")
+    'filename'
+    """
     pl=path_leaf(path)
     return file_base(pl)
 
 #sparql.ipynb:    "ds_url=ec.collect_ext(ds_urls,ext)\n",
+ #want to switch so _ are the flatten versions
 def collect_ext(l,ext):
   return list(filter(lambda x: file_ext(x)==ext,flatten(l)))
 
 def collect_ext_(l,ext):
-  return list(filter(lambda x: file_ext(x)==ext,l))
+    """filter list for extensions of interest
+    >>> collect_ext_(['f1.zip', 'f2.txt', 'f3.nt', 'f4.txt'], '.txt')
+    ['f2.txt', 'f4.txt']
+    """
+    return list(filter(lambda x: file_ext(x)==ext,l))
 
 def collect_pre(l,pre):
   return list(filter(lambda x: x.startswith(pre),flatten(l)))
 
 def collect_pre_(l,pre):
-  return list(filter(lambda x: x.startswith(pre),l))
+    """take from list things starting w/a prefix
+    >>> collect_pre_(['http://f1.zip', 'https://f2.txt', 'urn://f3.nt', 'urn://f4.txt'], 'http')
+    ['http://f1.zip', 'https://f2.txt']
+    """
+    return list(filter(lambda x: x.startswith(pre),l))
 
 def collect_str(l,s):
   return list(filter(lambda x: s in x ,flatten(l)))
 
 def collect_str_(l,s):
-  return list(filter(lambda x: s in x ,l))
+    """ret lists that have particular str in them
+    >>> collect_str_([[1, 2, 'str'], [3, 4], ['str', 5]],'str')
+    [[1, 2, 'str'], ['str', 5]]
+    """
+    return list(filter(lambda x: s in x ,l))
 
 #could think a file w/'.'s in it's name, had an .ext
  #so improve if possible; hopefully not by having a list of exts
@@ -267,6 +338,10 @@ def collect_str_(l,s):
 #only messed up filename when don't send in w/.ext and has dots, but ok w/.ext
 
 def has_ext(fn):
+    """does filename have an extension
+    >>> has_ext('zipfile_wo_ext')
+    False
+    """
     return (fn != file_base(fn))
 
 def wget(fn):
