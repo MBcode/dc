@@ -171,12 +171,16 @@ def get_summary4repo_(repo):
 #def summarize_repo(repo): #getting an error w/the qry above, so a little more debugging/to fix/to use this variant
 def get_summary4repo(repo):
     "load .nq to rdflib and dump .ttl summary"
-    global qry
+    #global qry
+    qry= "select ?s ?p ?o WHERE { ?s ?p ?o} limit 2" #to debug
     from os.path import exists
     fn=f'{repo}.nq'
     if not exists(fn):
         return f'no {fn} to run'
-    df=dc.query_fn(qry,fn)
+    #df=dc.query_fn(qry,fn)
+    df=dc.kg_query_fn(qry,fn) #this works on simple qry from https://derwen.ai/docs/kgl/ex4_0/
+    if dbg: #but still getting errors w/the bigger qry above on the nq file/more on this soon
+        print(f'new df={df}')
     return df
 
 if __name__ == '__main__':

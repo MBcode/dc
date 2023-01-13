@@ -1415,6 +1415,7 @@ def pp2so(pp,fn): #might alter name ;basicly the start of jq via sparql on .nt f
     return [str(result[0]) for result in results]
 
 def query_fn(qry,fn_): 
+    "sparql qry on a filename of RDF data"
     fn=dfn(fn_) #maybe gen fn from int
     add2log(f'qry_fn:fn={fn},qry={qry}')
     from rdflib import ConjunctiveGraph #might just install rdflib right away
@@ -1426,8 +1427,24 @@ def query_fn(qry,fn_):
         frmt="ntriples"
     g.parse(data, format=frmt)
     results = g.query(qry)
+    #l= [str(result[0]) for result in results]  #worked more for set pp value results
+    #print(f'l={l}')
+    #if dbg:
+    print(f'query_fn:results={results}')
+    for r in results: 
+        print(f'r={r}')
     add2log(results) #
-    return [str(result[0]) for result in results] 
+    return l
+
+def kg_query_fn(qry,fn): #needs fix/testing 
+    "kglab:sparql qry on a filename of RDF data"
+    import kglab
+    namespaces = { "so": "https://schema.org" }
+    kg = kglab.KnowledgeGraph(name = fn, base_uri = "http://geocodes.ddns.net/ld/", namespaces = namespaces,)
+    kg.load_rdf(fn)
+    #could viz as well, see: https://derwen.ai/docs/kgl/ex4_0/ 
+    df = kg.query_as_df(qry)
+    return df
 
 
 def rdfxml2nt(fnb):
