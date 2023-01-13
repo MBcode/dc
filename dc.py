@@ -1414,6 +1414,22 @@ def pp2so(pp,fn): #might alter name ;basicly the start of jq via sparql on .nt f
     add2log(results) #runs but still need2check output../fix
     return [str(result[0]) for result in results]
 
+def query_fn(qry,fn_): 
+    fn=dfn(fn_) #maybe gen fn from int
+    add2log(f'qry_fn:fn={fn},qry={qry}')
+    from rdflib import ConjunctiveGraph #might just install rdflib right away
+    g = ConjunctiveGraph(identifier=fn)
+    data = open(fn, "rb") #or get_textfile -no
+    frmt="nquads"
+    ext=file_ext(fn)
+    if ext==".nt": 
+        frmt="ntriples"
+    g.parse(data, format=frmt)
+    results = g.query(qry)
+    add2log(results) #
+    return [str(result[0]) for result in results] 
+
+
 def rdfxml2nt(fnb):
     if has_ext(fnb):
         fnb=file_base(fnb)
