@@ -42,9 +42,11 @@ SELECT distinct ?subj ?g ?resourceType ?name ?description  ?pubname
             BIND ( IF ( BOUND(?date_p), ?date_p, "No datePublished") as ?datep ) .
             BIND ( IF ( BOUND(?pub_name), ?pub_name, "No Publisher") as ?pubname ) .
             BIND ( IF ( BOUND(?place_name), ?place_name, "No spatialCoverage") as ?placename ) .
+            BIND ( IF ( BOUND(?kw_u), ?kw_u, "") as ?kwu ) .
              }
         }
-        GROUP BY ?subj ?pubname ?placenames ?kw ?datep   ?name ?description  ?resourceType ?g
+        #GROUP BY ?subj ?pubname ?placenames ?kw ?datep   ?name ?description  ?resourceType ?g
+        GROUP BY ?subj ?g ?resourceType ?name ?description  ?pubname ?placenames ?kw ?datep
         """
         #using more constrained qry now in get_summary.txt * now above
 #tmp_endpoint=f'http://localhost:3030/{repo}/sparql' #fnq repo
