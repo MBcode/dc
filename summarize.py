@@ -159,7 +159,7 @@ def summaryDF2ttl(df):
     #incl original subj, just in case for now
     #lat/lon not in present ui, but in earlier version
 
-def get_summary4repo_(repo):
+def get_summary4repo(repo):
     "so can call interactively to look at the df"
     #tmp_endpoint=f'http://localhost:3030/{repo}/sparql' #fnq repo
     tmp_endpoint=f'http://localhost:{port}/{repo}/sparql' #fnq repo
@@ -171,7 +171,7 @@ def get_summary4repo_(repo):
  #then call iqt2df takes the InstantitedQueryTemplate and calls on endpoint
 #or
 #def summarize_repo(repo): #getting an error w/the qry above, so a little more debugging/to fix/to use this variant
-def get_summary4repo(repo):
+def get_summary4repo_(repo):
     "load .nq to rdflib and dump .ttl summary"
     #global qry
     qry= "select ?s ?p ?o WHERE { ?s ?p ?o} limit 2" #to debug

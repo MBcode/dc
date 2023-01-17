@@ -1435,7 +1435,8 @@ def query_fn(qry,fn_):
     for r in results: 
         print(f'r={r}')
     add2log(results) #
-    return l
+    #if don't want to go for kglab just yet, find a way to convert this output to a format(df)that summarization can use
+    return r
 
 def kg_query_fn(qry,fn): #needs fix/testing 
     "kglab:sparql qry on a filename of RDF data"
