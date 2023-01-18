@@ -37,7 +37,9 @@ SELECT distinct ?subj ?g ?resourceType ?name ?description  ?pubname
             optional {?subj schema:distribution/schema:url|schema:subjectOf/schema:url ?url .}
             OPTIONAL {?subj schema:datePublished ?date_p .}
             OPTIONAL {?subj schema:publisher/schema:name|schema:sdPublisher|schema:provider/schema:name ?pub_name .}
-            OPTIONAL {?subj schema:spatialCoverage/schema:name ?place_name .}
+            #OPTIONAL {?subj schema:spatialCoverage/schema:name ?place_name .}
+            OPTIONAL {?subj 
+        schema:spatialCoverage/schema:name|schema:spatialCoverage/schema:additionalProperty/schema:name ?place_name .}
             OPTIONAL {?subj schema:keywords ?kwu .}
             BIND ( IF ( BOUND(?date_p), ?date_p, "No datePublished") as ?datep ) .
             BIND ( IF ( BOUND(?pub_name), ?pub_name, "No Publisher") as ?pubname ) .
@@ -49,6 +51,7 @@ SELECT distinct ?subj ?g ?resourceType ?name ?description  ?pubname
         GROUP BY ?subj ?g ?resourceType ?name ?description  ?pubname ?placenames ?kw ?datep
         """
         #using more constrained qry now in get_summary.txt * now above
+         #want fuseki version to use above soon too
 #tmp_endpoint=f'http://localhost:3030/{repo}/sparql' #fnq repo
 #print(f'try:{tmp_endpoint}') #if >repo.ttl, till prints, will have to rm this line &next2:
 #< not IN_COLAB
@@ -179,8 +182,11 @@ def get_summary4repo_file(repo):
     fn=f'{repo}.nq'
     if not exists(fn):
         return f'no {fn} to run'
-    df=dc.query_fn(qry,fn) #prints rows, but in end: AttributeError: iterrows, so still needs tranlation to a df
-    #df=dc.kg_query_fn(qry,fn) #this works on simple qry from https://derwen.ai/docs/kgl/ex4_0/ ;but serde.py", line 197, in load_rdf 4wifire
+    else:
+        print(f'qry={qry},on:{fn}')
+    #results still need to go to a df, or similar iterable useable above
+    #df=dc.query_fn(qry,fn) #prints rows, but in end: AttributeError: iterrows, so still needs tranlation to a df
+    df=dc.kg_query_fn(qry,fn) #this works on simple qry from https://derwen.ai/docs/kgl/ex4_0/ ;but serde.py", line 197, in load_rdf 4wifire
     if dbg: #but still getting errors w/the bigger qry above on the nq file/more on this soon
         print(f'new df={df}')
     return df
