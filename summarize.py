@@ -159,7 +159,7 @@ def summaryDF2ttl(df):
     #incl original subj, just in case for now
     #lat/lon not in present ui, but in earlier version
 
-def get_summary4repo(repo):
+def get_summary4repo_fuseki(repo):
     "so can call interactively to look at the df"
     #tmp_endpoint=f'http://localhost:3030/{repo}/sparql' #fnq repo
     tmp_endpoint=f'http://localhost:{port}/{repo}/sparql' #fnq repo
@@ -171,16 +171,16 @@ def get_summary4repo(repo):
  #then call iqt2df takes the InstantitedQueryTemplate and calls on endpoint
 #or
 #def summarize_repo(repo): #getting an error w/the qry above, so a little more debugging/to fix/to use this variant
-def get_summary4repo_(repo):
+def get_summary4repo_file(repo):
     "load .nq to rdflib and dump .ttl summary"
     #global qry
-    qry= "select ?s ?p ?o WHERE { ?s ?p ?o} limit 2" #to debug
+    #qry= "select ?s ?p ?o WHERE { ?s ?p ?o} limit 2" #to debug
     from os.path import exists
     fn=f'{repo}.nq'
     if not exists(fn):
         return f'no {fn} to run'
-    #df=dc.query_fn(qry,fn)
-    df=dc.kg_query_fn(qry,fn) #this works on simple qry from https://derwen.ai/docs/kgl/ex4_0/
+    df=dc.query_fn(qry,fn) #prints rows, but in end: AttributeError: iterrows, so still needs tranlation to a df
+    #df=dc.kg_query_fn(qry,fn) #this works on simple qry from https://derwen.ai/docs/kgl/ex4_0/ ;but serde.py", line 197, in load_rdf 4wifire
     if dbg: #but still getting errors w/the bigger qry above on the nq file/more on this soon
         print(f'new df={df}')
     return df
@@ -193,5 +193,6 @@ if __name__ == '__main__':
         ##print(f'try:{tmp_endpoint}') #if >repo.ttl, till prints, will have to rm this line &next2:
         ##ec.dflt_endpoint = tmp_endpoint
         ##df=ec.get_summary("")
-        df=get_summary4repo(repo)
+        #df=get_summary4repo_file(repo) #still needs dbg/finishing off
+        df=get_summary4repo_fuseki(repo)
         summaryDF2ttl(df)
