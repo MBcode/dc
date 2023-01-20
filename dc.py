@@ -1415,6 +1415,24 @@ def pp2so(pp,fn): #might alter name ;basicly the start of jq via sparql on .nt f
     add2log(results) #runs but still need2check output../fix
     return [str(result[0]) for result in results]
 
+#another (but smaller) lib that could take qry results to a df
+from gastrodon import *
+from rdflib import *
+#def gdf(qry,g):
+def gdf(qry,fn):
+    import sys
+    #import gastrodon as gas
+    #import rdflib as rdf
+    import pandas as pd
+    s=get_txtfile(fn)
+    sl=len(s)
+    print(f'got:fn={fn},sl={sl}')
+    g=inline(s)
+    print(f'g={g}')
+    df=g.select(qry)
+    print(f'df={df}')
+    return df
+
 def query_fn(qry,fn_): 
     "sparql qry on a filename of RDF data"
     fn=dfn(fn_) #maybe gen fn from int
@@ -1431,12 +1449,19 @@ def query_fn(qry,fn_):
     #l= [str(result[0]) for result in results]  #worked more for set pp value results
     #print(f'l={l}')
     #if dbg:
+    print(f'query_fn:g={g}')
+    print(f'query_fn:bindings={results.bindings}')
     print(f'query_fn:results={results}')
     for r in results: 
         print(f'r={r}')
     add2log(results) #
     #if don't want to go for kglab just yet, find a way to convert this output to a format(df)that summarization can use
-    return r
+    #return results
+    #df=gdf(qry,g)
+    #df=gdf(qry,fn)
+    #df=map(asdict,results)
+    #df=map(to_dict,results)
+    return df
 
 def kg_query_fn(qry,fn): #needs fix/testing 
     "kglab:sparql qry on a filename of RDF data"
@@ -1524,7 +1549,7 @@ def viz(fn=".all.nt"): #might call this rdf_viz once we get some other type of v
 
 #should change os version of wget to request so can more easily log the return code
  #maybe, but this is easiest way to get the file locally to have to use
-  #though if we use a kglab/sublib or other that puts right to graph, could dump from that too
+  #though if we use a kglab/rdflib or other that puts right to graph, could dump from that too
 #host = "http://141.142.218.86:3031"
 host = "http://mbobak.ncsa.illinois.edu:3031"
 #import requests
