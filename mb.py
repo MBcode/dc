@@ -275,7 +275,8 @@ def wget_(fn): #start using requests version below instead, though this is hardi
     os_system(cs)
     return path_leaf(fn) #new below from get_repo.py
 
-def wget(url):
+#def wget(url):
+def request(url):
     import requests
     fn=path_leaf(url)
     response = requests.get(url)
@@ -301,7 +302,8 @@ def pre_rm(url):
 
 def get_ec(url="http://geocodes.ddns.net/ec/nb/ec.py"):
     pre_rm(url)
-    wget(url)
+    #wget(url)
+    request(url)
     return "import ec"
 
     #often want to get newest ec.py if debugging
@@ -309,7 +311,8 @@ def get_ec(url="http://geocodes.ddns.net/ec/nb/ec.py"):
 
 def get_ec_txt(url):
     fnb= pre_rm(url)
-    wget(url)
+    #wget(url)
+    request(url)
     return get_txtfile(fnb)
 
 #def blabel_l(fn): 
@@ -379,7 +382,8 @@ def add_ext(fn,ft):
     return r
 
 def wget_ft(fn,ft):
-    wget(fn)
+    #wget(fn)
+    request(fn)
     fnl=fn
     if ft!='.' and ft!='' and ft!=None and len(ft)>2:
         fnl=add_ext(fn,ft) #try sleep right before the mv
