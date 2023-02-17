@@ -8,7 +8,8 @@
 # as they do in this collection of files, and they should work the same way
 #-
 #as more a clean-room way of doing it, it could just start with
-import mb
+#import mb
+from mb import *  #do this too, if you want this to approach be a replacement for: earthcube_utillities, that I can put in a new branch
 #presently the files below have some fncs from the one above
   #was called qry.py in summarize
 #import query 
