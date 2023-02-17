@@ -1,7 +1,16 @@
 #=Mbobak mainstay-basic utils, that are starting to get copied in a few places
-# not bad now, but could get that way, so taking a shot at pulling them out now
-#/ecu/earthcube_utilities> grep def dc.py >mb.py
+# need to modularize ;not bad now, but could get that way, so pulling them out now
+#earthcube_utilities> grep def dc.py >mb.py
 #=so can see where they were in the original for a bit
+##Note: there are doctests in this, that can be part of the git workflow
+ #e.g. python3 -m doctest mb.py   #will return nothing if still ok
+
+#as in issue21 qry.py and rdf2nq.py already broken out
+# so w/this&those and next sections broken out
+#  will assemble in a branch that is a more modular
+#  version of earthcube_utiliites.py ;in the end
+
+#-
 #def laptop(): #could call: in_binder
 #def local():
 
@@ -106,7 +115,7 @@ def flatten(xss): #stackoverflow
     """
     return [x for xs in xss for x in xs]
 
-#from qry.py
+#from old qry.py
 def get_txtfile(fn):
     "ret str from file"
     with open(fn, "r") as f:
