@@ -33,6 +33,10 @@ def file_size(fn):
 
 #-from get_repo:
 def url_w_end_slash(url):
+    """make sure url has slash at the end
+    >>> url_w_end_slash("https://graph.geocodes.ncsa.illinois.edu/blazegraph/namespace")
+    'https://graph.geocodes.ncsa.illinois.edu/blazegraph/namespace/'
+    >>> """
     if len(url)-1 != "/":
         return url + "/"
     else:
@@ -207,6 +211,7 @@ def path_base_leaf(path):
     head, tail = ntpath.split(path)
     if not tail:
         tail = ntpath.basename(head)
+    return head, tail
 
 #def replace_base(path,mydict=base_url2repo,sep=":"): #for context like: repo:filename
 
