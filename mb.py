@@ -2,10 +2,12 @@
 # need to modularize ;not bad now, but could get that way, so pulling them out now
 #earthcube_utilities> grep def dc.py >mb.py
 #=so can see where they were in the original for a bit
-##Note: there are doctests in this, that can be part of the git workflow
+
+#Note: there are doctests in this, that can be part of the git workflow
  #e.g. python3 -m doctest mb.py   #will return nothing if still ok
 
 #as in issue21 qry.py and rdf2nq.py already broken out
+ #[and now the commented def's they hold are noted below]
 # so w/this&those and next sections broken out
 #  will assemble in a branch that is a more modular
 #  version of earthcube_utiliites.py ;in the end
@@ -362,6 +364,7 @@ def is_df(df):
 #def install_any23(url="https://dlcdn.apache.org/any23/2.7/apache-any23-cli-2.7.tar.gz"):
 #def setup_blabel(url="http://geocodes.ddns.net/ld/bn/blabel.jar"):
 #def setup_j(jf=None):
+#-----------------------------qry.py has
 ##def get_relateddatafilename_txt(url="https://raw.githubusercontent.com/earthcube/facetsearch/toolMatchNotebookQuery/client/src/sparql_blaze/sparql_relateddatafilename.txt"):
 #def get_relateddatafilename_txt(url="https://raw.githubusercontent.com/MBcode/ec/master/NoteBook/sparql_relateddatafilename.txt"):
 #def get_webservice_txt(url="https://raw.githubusercontent.com/earthcube/facetsearch/master/client/src/sparql_blaze/sparql_gettools_webservice.txt"):
@@ -375,6 +378,7 @@ def is_df(df):
 #def get_graphs_txt(url="http://geocodes.ddns.net/ec/nb/sparql_graphs.txt"):
 #def get_graph_txt(url="http://geocodes.ddns.net/ec/nb/get_graph.txt"):
 #def get_summary_txt(url="http://geocodes.ddns.net/ec/nb/get_summary.txt"):
+#-----
 
 def add_ext(fn,ft):
     if ft==None or ft=='' or ft=='.' or len(ft)<2:
@@ -421,12 +425,14 @@ def wget_ft(fn,ft):
 #def url2jsonLD(url):
 #def url2jsonLD_fn(url,fn):
 #def url2jsonLD_file(url):
+#---------------------rdf2nq.py
 ##def fn2jsonld(fn, base_url=None):
 #def fn2jsonld(fn, base_url=None):
 #def getjsonLD(url):
 ##def 2nt  from any rdf frmt to a .nt file, bc easiest to concat
 #def xml2nt(fn,frmt="xml"):  #could also use rapper here, see: rdfxml2nt
 #def to_nt_str(fn,frmt="json-ld"):  
+#---
 #def jsonld2nt(fn,frmt="json-ld"):
 #def url2nt(url):
 #def append2everyline(fn,aptxt,fn2=None):
@@ -536,6 +542,7 @@ def ls_(path):
 #def get_sources_df(url="https://raw.githubusercontent.com/MBcode/ec/master/crawl/sources.csv"):
 ##def get_sources_urls(): #could become crawl_
 #def crawl_sources_urls(): #work on sitemap lib to handle non-stnd ones
+#-------------qry.py has:
 #def qs2graph(q,sqs):
 #def urn2graph(urn,sqs):
 ##def sti(sqs, matchVar, replaceValue): #assume only1(replacement)right now,in the SPARQL-Qry(file)String(txt)
@@ -556,6 +563,7 @@ def ls_(path):
 #def get_summary(g=""): #g not used but could make a version that gets it for only 1 graph
 ##def get_summary_query(g=""): #g not used but could make a version that gets it for only 1 graph
 #def summary_query(g=""): #this is finally used in: txt_query_summary
+#----------
 ##def txt_query_(q,endpoint=None):
 #def txt_query_(q,endpoint=None):
 #def txt_query_summary(q): #might need to switch qry as well, to gs.txt
@@ -596,11 +604,13 @@ def replace_last(source_string, replace_what, replace_with):
     head, _sep, tail = source_string.rpartition(replace_what)
     return head + replace_with + tail
 
+#---------------------rdf2nq.py
 ##def fn2nq(fn): #from 2nq.py
 #def nt_fn2nq(fn): #already a nt2nq
 #def riot2nq(fn):
 #def to_nq(fn,prefix=None):
 #def fn2nq(fn): #if is_http wget and call self again/tranfrom input
+#--------------
 #  #def xml2nt(fn,frmt="xml") takes json-ld as a format
 #  #also: def riot2nq(fn): "process .jsonld put out .nq"
 #def summoned2nq(s=None):
