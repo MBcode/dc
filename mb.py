@@ -564,6 +564,7 @@ def ls_(path):
 ##def get_summary_query(g=""): #g not used but could make a version that gets it for only 1 graph
 #def summary_query(g=""): #this is finally used in: txt_query_summary
 #----------
+ #-qry.py doesn't incl these just below, but could _ also want to get a kglab query a file, that is better than what we have in
 ##def txt_query_(q,endpoint=None):
 #def txt_query_(q,endpoint=None):
 #def txt_query_summary(q): #might need to switch qry as well, to gs.txt
@@ -573,8 +574,15 @@ def ls_(path):
 #def get_graphs_lon(repo=None,endpoint="http://ideational.ddns.net:3040/all/sparql"): 
 ##def get_graph_per_repo(grep="milled",endpoint=None,dump_file="graphs.csv"): #try w/(None, ncsa_endpoint)
 #def get_graph_per_repo(grep="milled",endpoint="https://graph.geodex.org/blazegraph/namespace/earthcube/sparql",dump_file="graphs.csv"):
-#def urn_tail(urn):
-#def urn_tails(URNs):
+
+def urn_tail(urn):
+    "like urn_leaf"
+    return  urn if not urn else urn.split(':')[-1]
+
+def urn_tails(URNs):
+    return list(map(lambda s: s if not s else s.split(':')[-1],URNs))
+    #return list(map(urn_tail,URNs))
+
 #def get_graphs_tails(endpoint):
 # #incl the default path for each of those other queries, ecrr, ;rdf location as well
 ##def sq2df(qry_str):
@@ -671,5 +679,8 @@ def leaf_base(u):
         return lf
 
 #def rcsv(fn,d=","):
+#=these should have gone in dct testing
 #def tgc1_(ep=None):
 #def tgc1():
+#=============will have more notes on a breakdown, but will sketch in notes v here for a bit
+#there are also sections that make use of certain libs that should be broken out separately, eg. anything that uses java
